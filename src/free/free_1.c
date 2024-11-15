@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:39:15 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/15 02:11:08 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/14 19:56:51 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	free_token(t_token *token)
 	if (token->value)
 	{
 		free(token->value);
+		token->value = NULL;
 	}
 	free(token);
 	token = NULL;
