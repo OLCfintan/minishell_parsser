@@ -16,10 +16,10 @@
 
 t_cmd	*handle_pipe(t_cmd *curr_cmd, char **env)
 {
-    t_cmd *tmp;
+	t_cmd	*tmp;
 
-    tmp = curr_cmd;
-	while(curr_cmd->next)
+	tmp = curr_cmd;
+	while (curr_cmd->next)
 		curr_cmd = curr_cmd->next;
 	tmp = init_cmd(env);
 	curr_cmd->next = tmp;

@@ -17,7 +17,6 @@ void	free_token(t_token *token)
 	if (token->value)
 	{
 		free(token->value);
-		//token->value = NULL;
 	}
 	free(token);
 	token = NULL;

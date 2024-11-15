@@ -51,11 +51,9 @@ void	collect_cmd(t_cmd *cmd_list, t_lexer *lexer, t_token *token, char **env)
 t_cmd	*parse_input(t_lexer *lexer, char **env)
 {
 	t_cmd	*cmd_list;
-	//t_cmd	*curr_cmd;
 	t_token	*token;
 
 	cmd_list = NULL;
-	//curr_cmd = NULL;
 	token = lexer_get_next_token(lexer, env);
 	while (token->type != END)
 	{
