@@ -51,7 +51,7 @@ void	minishell_loop(t_minishell *minishell, char **env)
 			minishell->cmd = NULL;
 			break ;
 		}
-        minishell->cmd = parse_input(minishell->lexer, env);
+		minishell->cmd = parse_input(minishell->lexer, env);
 		print_cmd_dd(minishell->cmd, env);
 		minishell_exit(minishell);
 	}
