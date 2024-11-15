@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:38:30 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/14 19:56:16 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/15 02:28:12 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,14 @@
 
 t_cmd	*handle_pipe(t_cmd *curr_cmd, char **env)
 {
-	curr_cmd->next = init_cmd(env);
-	return (curr_cmd->next);
+    t_cmd *tmp;
+
+    tmp = curr_cmd;
+	while(curr_cmd->next)
+		curr_cmd = curr_cmd->next;
+	tmp = init_cmd(env);
+	curr_cmd->next = tmp;
+	return (curr_cmd);
 }
 
 t_redir	*init_redirection(t_types type, char *file)
