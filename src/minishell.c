@@ -47,8 +47,11 @@ void	minishell_loop(t_minishell *minishell, char **env)
 		add_history(minishell->line);
 		minishell->lexer = init_lexer(minishell->line);
 		if (ft_strncmp(minishell->line, "exit", 4) == 0)
+		{
+			minishell->cmd = NULL;
 			break ;
-		minishell->cmd = parse_input(minishell->lexer, env);
+		}
+        minishell->cmd = parse_input(minishell->lexer, env);
 		print_cmd_dd(minishell->cmd, env);
 		minishell_exit(minishell);
 	}
