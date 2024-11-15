@@ -61,6 +61,7 @@ typedef struct s_parser
 
 typedef struct s_redir
 {
+    char *file;
 	t_types			type;
 	struct s_redir	*next;
 }					t_redir;
