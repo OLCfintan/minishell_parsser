@@ -27,7 +27,8 @@ void	handle_initialization(t_cmd **cmd_list, t_cmd **curr_cmd, char **env)
 	}
 }
 
-void	process_token(t_token *token, int prev_type, t_cmd **curr_cmd, char **env)
+void	process_token(t_token *token, int prev_type, t_cmd **curr_cmd,
+		char **env)
 {
 	if (token->type == PIPE)
 		*curr_cmd = handle_pipe(*curr_cmd, env);
@@ -45,7 +46,7 @@ int	token_parss(t_token *token, int prev, int wr)
 	prev += 2 * (token->type == PIPE && prev == -1);
 	if (prev == 1 && ((int)token->type == PIPE || token->type == END))
 	{
-		if(wr == 1)
+		if (wr == 1)
 			printf("invalid use of pip \n");
 		return (-1);
 	}
@@ -53,7 +54,7 @@ int	token_parss(t_token *token, int prev, int wr)
 				&& (int)token->type <= 5) || (int)token->type == PIPE
 			|| (int)token->type == END))
 	{
-		if(wr == 1)
+		if (wr == 1)
 			printf("invalid use of redirections \n");
 		return (-1);
 	}
@@ -84,4 +85,3 @@ t_cmd	*parse_input(t_lexer *lexer, char **env)
 	free_token(token);
 	return (cmd_list);
 }
-
