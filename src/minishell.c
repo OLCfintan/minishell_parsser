@@ -6,11 +6,27 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:37:55 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/14 19:54:40 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/16 05:16:10 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (ft_iswp(s1[i]))
+		i++;
+	j = ft_strncmp(s1 + i, s2, 4);
+	i += 4;
+	while (ft_iswp(s1[i]))
+		i++;
+	return (j == 0 && !s1[i]);
+}
 
 void	print_cmd_dd(t_cmd *cmd, char **env)
 {
@@ -76,14 +92,18 @@ void	minishell_exit(t_minishell *minishell)
 	}
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int ac, char **av, char **env)
 {
 	t_minishell	minishell;
 
-	(void)argc;
-	(void)argv;
-	minishell_loop(&minishell, env);
-	clear_history();
-	minishell_exit(&minishell);
+	if (ac == 1)
+	{
+		(void)av;
+		minishell_loop(&minishell, env);
+		clear_history();
+		minishell_exit(&minishell);
+	}
+	else
+		printf("invalid use of $ minishell $ .\n");
 	return (0);
 }

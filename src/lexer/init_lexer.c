@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:38:51 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/14 19:38:52 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/16 18:46:36 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ t_token	*lexer_get_next_token(t_lexer *lexer, char **env)
 	{
 		if (ft_iswp(lexer->c))
 			lexer_advance(lexer);
-		if (ft_isprint(lexer->c))
-			return (lexer_collect_cmd(lexer, env));
 		if (lexer->c == '|')
 			return (lexer_advance_with(init_token(ft_strdup("|"), PIPE),
 					lexer));
-		if (lexer->c == '\'')
+		else if (ft_isprint(lexer->c))
+			return (lexer_collect_cmd(lexer, env));
+		else if (lexer->c == '\'')
 			return (lexer_collect_squote(lexer));
-		if (lexer->c == '\"')
+		else if (lexer->c == '\"')
 			return (lexer_collect_dquote(lexer, env));
-		if (lexer->c == '<')
+		else if (lexer->c == '<')
 			return (lexer_collect_larrow(lexer));
-		if (lexer->c == '>')
+		else if (lexer->c == '>')
 			return (lexer_collect_rarrow(lexer));
 	}
 	return (init_token(ft_strdup("EOF"), END));
