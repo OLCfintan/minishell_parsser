@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 01:32:47 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/15 01:34:47 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:29:18 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,30 +90,34 @@ void				minishell_exit(t_minishell *minishell);
 t_token				*init_token(char *value, t_types type);
 void				print_tokens(t_lexer *lexer, char **env);
 
-t_cmd				*parse_input(t_lexer *lexer, char **env);
+t_cmd				*parse_store_cmd(t_lexer *lexer, char **env);
 
 t_lexer				*init_lexer(char *line);
+t_token				*lexer_collect_heredoc(t_lexer *lexer);
 void				lexer_advance(t_lexer *lexer);
 t_token				*lexer_advance_with(t_token *token, t_lexer *lexer);
 char				*lexer_get_env_value(t_lexer *lexer, char **env);
 t_token				*lexer_collect_cmd(t_lexer *lexer, char **env);
-t_token				*lexer_collect_squote(t_lexer *lexer);
+t_token				*lexer_collect_squote(t_lexer *lexer, char **env);
 t_token				*lexer_collect_dquote(t_lexer *lexer, char **env);
 t_token				*lexer_collect_rarrow(t_lexer *lexer);
 t_token				*lexer_collect_larrow(t_lexer *lexer);
 
 t_token				*lexer_get_next_token(t_lexer *lexer, char **env);
+void				check_if_expand(t_lexer *lexer, char **env, char **value);
+int					check_if_quotes(t_lexer *lexer, char **env, char **value);
+void				check_if_cmd(t_lexer *lexer, char **env, char **value);
 
 char				*ft_strjoin_char(char *s1, char c);
 
-void				add_redirection(t_cmd *cmd, t_types type, char *file);
-void				store_av(t_cmd *cmd, char *av);
+void				add_redirection_cmd(t_cmd *cmd, t_types type, char *file);
+void				parse_av_add(t_cmd *cmd, char *av);
 void				execute_cmds(t_cmd *cmd_list, char **env);
 void				free_cmd_list(t_cmd *cmd_list);
 void				execute_single_cmd(t_cmd *cmd);
 void				print_cmd(t_cmd *cmd_list);
-t_redir				*init_redirection(t_types type, char *file);
-t_cmd				*handle_pipe(t_cmd *curr_cmd, char **env);
+t_redir				*init_redirection_cmd(t_types type, char *file);
+t_cmd				*parse_pipe_cmd(t_cmd *curr_cmd, char **env);
 t_cmd				*init_cmd(char **env);
 
 void				free_cmd_list(t_cmd *cmd_list);

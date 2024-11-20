@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:38:51 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/16 18:46:36 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:48:21 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,8 @@ t_token	*lexer_get_next_token(t_lexer *lexer, char **env)
 		if (lexer->c == '|')
 			return (lexer_advance_with(init_token(ft_strdup("|"), PIPE),
 					lexer));
-		else if (ft_isprint(lexer->c))
+		else if (is_cmd(lexer->c))
 			return (lexer_collect_cmd(lexer, env));
-		else if (lexer->c == '\'')
-			return (lexer_collect_squote(lexer));
-		else if (lexer->c == '\"')
-			return (lexer_collect_dquote(lexer, env));
 		else if (lexer->c == '<')
 			return (lexer_collect_larrow(lexer));
 		else if (lexer->c == '>')

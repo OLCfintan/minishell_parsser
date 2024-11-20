@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:38:18 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/14 19:38:19 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:28:48 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_cmd	*init_cmd(char **env)
 	return (cmd);
 }
 
-void	store_av(t_cmd *cmd, char *av)
+void	parse_av_add(t_cmd *cmd, char *av)
 {
 	int	i;
 
@@ -39,5 +39,7 @@ void	store_av(t_cmd *cmd, char *av)
 		i++;
 	cmd->av = realloc(cmd->av, (i + 2) * sizeof(char *));
 	cmd->av[i] = ft_strdup(av);
+	if (!av)
+		printf("%s\n", av);
 	cmd->av[i + 1] = NULL;
 }

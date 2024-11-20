@@ -6,27 +6,11 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:37:55 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/16 05:16:10 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:27:01 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (ft_iswp(s1[i]))
-		i++;
-	j = ft_strncmp(s1 + i, s2, 4);
-	i += 4;
-	while (ft_iswp(s1[i]))
-		i++;
-	return (j == 0 && !s1[i]);
-}
 
 void	print_cmd_dd(t_cmd *cmd, char **env)
 {
@@ -59,15 +43,15 @@ void	minishell_loop(t_minishell *minishell, char **env)
 	minishell->env = env;
 	while (1)
 	{
-		minishell->line = readline(LIGHT_BLUE "👾 minishell $ " RESET);
+		minishell->line = readline(LIGHT_BLUE "<<👾>>[ -limbo- ]<<👾>>$ " RESET);
 		add_history(minishell->line);
 		minishell->lexer = init_lexer(minishell->line);
-		if (ft_strncmp(minishell->line, "exit", 4) == 0)
+		if (ft_strcmp(minishell->line, "exit"))
 		{
 			minishell->cmd = NULL;
 			break ;
 		}
-		minishell->cmd = parse_input(minishell->lexer, env);
+		minishell->cmd = parse_store_cmd(minishell->lexer, env);
 		print_cmd_dd(minishell->cmd, env);
 		minishell_exit(minishell);
 	}
