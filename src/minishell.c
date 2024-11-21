@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:37:55 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/21 09:06:31 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:42:11 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ void	minishell_loop(t_minishell *minishell, char **env)
 	{
 		minishell->line = readline(LIGHT_BLUE "<<👾>>[ -limbo- ]<<👾>>$ " RESET);
 		add_history(minishell->line);
-		minishell->lexer = init_lexer(minishell->line);
-		if (ft_strcmp(minishell->line, "exit"))
+		if(minishell->line)
+			minishell->lexer = init_lexer(minishell->line);
+		if (!minishell->line || ft_strcmp(minishell->line, "exit"))
 		{
 			minishell->cmd = NULL;
 			break ;
