@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:38:41 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/19 20:39:45 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:07:05 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char	*lexer_get_env_value(t_lexer *lexer, char **env)
 	}
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], key, ft_strlen(key)) == 0)
+		if (ft_strncmp(env[i], key, ft_strlen(key)) == 0 && env[i][strlen(key)]
+			== '=')
 		{
 			value = ft_strdup(env[i] + ft_strlen(key) + 1);
 			return (free(key), value);
