@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:39:03 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/21 11:54:29 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:21:29 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	parse_creat_cmd(t_cmd **cmd_list, t_cmd **curr_cmd, char **env)
 void	parse_token_add(t_token *token, int prev_type, t_cmd **curr_cmd,
 		char **env)
 {
-	if (prev_type == 5)
-		parse_redir_add(*curr_cmd, token, prev_type);
 	if (token->type == PIPE)
 		*curr_cmd = parse_pipe_cmd(*curr_cmd, env);
 	else if ((prev_type >= 2 && prev_type <= 5) && token->type == CMD)

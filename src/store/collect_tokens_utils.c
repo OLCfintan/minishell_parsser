@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 01:35:38 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/21 12:01:20 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 13:15:03 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_token	*lexer_collect_heredoc(t_lexer *lexer, char **env)
 		if ((lexer->c == '\"' || lexer->c == '\'') && (if_qts(lexer, env,
 					&value, 1) == 0))
 			return (free(value), init_token(ft_strdup("khssk\tctrl\n"), CMD));
-		if (lexer->c != '\"' && lexer->c != '\'' && lexer->c != 32)
+		else if (lexer->c != '\"' && lexer->c != '\'' && lexer->c != 32)
 		{
 			value = ft_strjoin_char(value, lexer->c);
 			lexer_advance(lexer);
