@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:39:03 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/20 09:33:06 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:34:17 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,16 @@ void	parse_token_add(t_token *token, int prev_type, t_cmd **curr_cmd,
 
 int	parse_err_token(t_token *token, int prev, int wr)
 {
-	if (prev != -2 && ft_strlen(token->value) == 0 && token->type != END)
+	if (token == NULL)
 	{
-		if (wr == 1)
+		if (wr == 1 && prev == -1)
+		{
 			printf("invalid use of quotes\n");
+			return (-1);
+		}
 		return (-1);
 	}
-	prev += (prev == -2);
-	prev += 2 * (token->type == PIPE && prev == -1);
+	prev += 2 * (token != NULL && token->type == PIPE && prev == -1);
 	if ((prev >= 2 && prev <= 5) && (((int)token->type >= 2
 				&& (int)token->type <= 5) || (int)token->type == PIPE
 			|| (int)token->type == END))
@@ -81,19 +83,18 @@ t_cmd	*parse_store_cmd(t_lexer *lexer, char **env)
 
 	cmd_list = NULL;
 	curr_cmd = NULL;
-	prev = -1 - (lexer->line[lexer->i] == '$');
 	token = lexer_get_next_token(lexer, env);
+	prev = -1;
 	while (parse_err_token(token, prev, 1) == 1 && token->type != END)
 	{
 		parse_creat_cmd(&cmd_list, &curr_cmd, env);
 		parse_token_add(token, prev, &curr_cmd, env);
-		prev = token->type * (ft_strlen(token->value) != 0);
+		prev = token->type;
 		free_token(token);
 		if (prev == 5)
-			token = lexer_collect_heredoc(lexer);
+			token = lexer_collect_heredoc(lexer, env);
 		else
 			token = lexer_get_next_token(lexer, env);
-		prev -= 2 * (ft_strlen(token->value) == 0);
 	}
 	if (parse_err_token(token, prev, 0) == -1 && cmd_list)
 		return (free_token(token), free_cmd_list(cmd_list), NULL);

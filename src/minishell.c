@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:37:55 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/20 09:27:01 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 09:06:31 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,47 @@ void	print_cmd_dd(t_cmd *cmd, char **env)
 {
 	t_cmd	*hold;
 	int		i;
+	int		avi;
+	int		redi;
 	t_redir	*redirrection;
 
+	avi = 1;
+	redi = 1;
 	(void)env;
 	hold = cmd;
 	while (hold)
 	{
 		i = 0;
+		avi = 1;
+		redi = 1;
 		redirrection = hold->redirections;
-		printf("the number of arguments is ---> %d\n", hold->ac);
+		printf("|---------------------------------------------------------------------------------------------------------|\n");
+		printf("|														|\n");
+		printf("|		the number of arguments is --->	%d 	 				          	  	  |\n",hold->ac);
+		printf("|														|\n");
+		printf("|---------------------------------------------------------------------------------------------------------|\n");
 		while (hold->av[i] != NULL)
-			printf("the arguments is ---> %s\n", hold->av[i++]);
+		{
+			printf("|-------------------< AV  :  %d>--------------------------------------------------------------------------|\n",
+					avi);
+			printf("|														|\n");
+			printf("|     		[argumnet is] -->[-->%s<--]  				  			  	  |\n",hold->av[i++]);
+			printf("|														|\n");
+			printf("|														|\n");
+			printf("|---------------------------------------------------------------------------------------------------------|\n");
+			avi++;
+		}
 		while (redirrection != NULL)
 		{
-			printf("the file is -->%s     and    the type is --> %d\n",
-				redirrection->file,
-				redirrection->type);
+			printf("|-------------------<REDIRS :%d>--------------------------------------------------------------------------|\n",
+					redi);
+			printf("|														|\n");
+			printf("|														|\n");
+			printf("|		the file is -->%s     and    the type is -->%d  				  		 |\n",redirrection->file,redirrection->type);
+			printf("|														|\n");
+			printf("|														|\n");
+			printf("|---------------------------------------------------------------------------------------------------------|\n");
+			redi++;
 			redirrection = redirrection->next;
 		}
 		hold = hold->next;

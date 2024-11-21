@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 01:32:47 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/20 09:29:18 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 10:54:41 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,20 @@ void				print_tokens(t_lexer *lexer, char **env);
 t_cmd				*parse_store_cmd(t_lexer *lexer, char **env);
 
 t_lexer				*init_lexer(char *line);
-t_token				*lexer_collect_heredoc(t_lexer *lexer);
+t_token				*lexer_collect_heredoc(t_lexer *lexer, char **env);
 void				lexer_advance(t_lexer *lexer);
 t_token				*lexer_advance_with(t_token *token, t_lexer *lexer);
 char				*lexer_get_env_value(t_lexer *lexer, char **env);
 t_token				*lexer_collect_cmd(t_lexer *lexer, char **env);
 t_token				*lexer_collect_squote(t_lexer *lexer, char **env);
-t_token				*lexer_collect_dquote(t_lexer *lexer, char **env);
+t_token				*lexer_collect_dquote(t_lexer *lexer, char **env, int hdc);
 t_token				*lexer_collect_rarrow(t_lexer *lexer);
 t_token				*lexer_collect_larrow(t_lexer *lexer);
 
 t_token				*lexer_get_next_token(t_lexer *lexer, char **env);
-void				check_if_expand(t_lexer *lexer, char **env, char **value);
-int					check_if_quotes(t_lexer *lexer, char **env, char **value);
-void				check_if_cmd(t_lexer *lexer, char **env, char **value);
+void				if_expand(t_lexer *lexer, char **env, char **value);
+int					if_qts(t_lexer *lexer, char **env, char **value, int hdc);
+int					if_cmd(t_lexer *lexer, char **env, char **value);
 
 char				*ft_strjoin_char(char *s1, char c);
 

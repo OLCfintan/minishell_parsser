@@ -6,25 +6,30 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 01:35:38 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/20 09:33:42 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 10:54:41 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	check_if_cmd(t_lexer *lexer, char **env, char **value)
+int	if_cmd(t_lexer *lexer, char **env, char **value)
 {
 	t_token	*token;
 
 	if (ft_isprint(lexer->c))
 	{
 		token = lexer_collect_cmd(lexer, env);
-		*value = ft_strjoin(*value, token->value);
-		free(token);
+		if (token != NULL)
+		{
+			*value = ft_strjoin(*value, token->value);
+			return (free(token), 1);
+		}
+		return (0);
 	}
+	return (-1);
 }
 
-int	check_if_quotes(t_lexer *lexer, char **env, char **value)
+int	if_qts(t_lexer *lexer, char **env, char **value, int hdc)
 {
 	t_token	*token;
 	int		i;
@@ -32,30 +37,32 @@ int	check_if_quotes(t_lexer *lexer, char **env, char **value)
 	if (lexer->c == '\'')
 	{
 		token = lexer_collect_squote(lexer, env);
-		i = ft_strlen(*value);
+		i = (lexer->c == '\'');
+		if (lexer->c == '\'')
+			lexer_advance(lexer);
 		if (token)
 			*value = ft_strjoin(*value, token->value);
-		free(token);
-		return (!(i == (int)ft_strlen(*value)));
+		return (free(token), i * (if_qts(lexer, env, value, hdc) != 0));
 	}
 	else if (lexer->c == '\"')
 	{
-		token = lexer_collect_dquote(lexer, env);
-		i = ft_strlen(*value);
+		token = lexer_collect_dquote(lexer, env, hdc);
+		i = (lexer->c == '\"');
+		if (lexer->c == '\"')
+			lexer_advance(lexer);
 		if (token)
 			*value = ft_strjoin(*value, token->value);
-		free(token);
-		return (!(i == (int)ft_strlen(*value)));
+		return (free(token), i * (if_qts(lexer, env, value, hdc) != 0));
 	}
 	return (-1);
 }
 
-void	check_if_expand(t_lexer *lexer, char **env, char **value)
+void	if_expand(t_lexer *lexer, char **env, char **value)
 {
 	while (lexer->c == '$')
 	{
 		lexer_advance(lexer);
-		if (lexer->c != 0 && lexer->c != '$')
+		if (lexer->c != 0 && lexer->c != '$' && !ft_iswp(lexer->c))
 		{
 			if (lexer->c >= 48 && lexer->c <= 57)
 			{
@@ -78,16 +85,18 @@ void	check_if_expand(t_lexer *lexer, char **env, char **value)
 	}
 }
 
-t_token	*lexer_collect_heredoc(t_lexer *lexer)
+t_token	*lexer_collect_heredoc(t_lexer *lexer, char **env)
 {
 	char	*value;
 
 	value = ft_strdup("");
-	while (lexer->c == 32 || lexer->c == '\t')
+	while (ft_iswp(lexer->c))
 		lexer_advance(lexer);
 	while (lexer->c != '\0' && lexer->c != '<')
 	{
-		if (lexer->c != '\'' && lexer->c != '\"')
+		if ((if_qts(lexer, env, &value, 1) == 0))
+			return (free(value), init_token(ft_strdup("khssk\tctrl\n"), CMD));
+		else
 			value = ft_strjoin_char(value, lexer->c);
 		lexer_advance(lexer);
 		if (lexer->c == 32 || lexer->c == 0)

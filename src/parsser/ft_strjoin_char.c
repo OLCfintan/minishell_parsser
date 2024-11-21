@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:38:47 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/20 03:50:23 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 05:12:51 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strjoin_char(char *s1, char c)
 
 	if (!s1)
 		return (NULL);
+	if (c == 0)
+		return (s1);
 	str = malloc(sizeof(char) * (ft_strlen(s1) + 2));
 	if (!str)
 		return (NULL);

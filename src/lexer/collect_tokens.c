@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:38:43 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/20 09:20:01 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:11:07 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,20 @@ t_token	*lexer_collect_cmd(t_lexer *lexer, char **env)
 	value = ft_strdup("");
 	while (lexer->c != '\0')
 	{
-		check_if_expand(lexer, env, &value);
-		if (check_if_quotes(lexer, env, &value) == 0)
-			break ;
+		if (if_qts(lexer, env, &value, 0) == 0)
+			return (free(value), NULL);
+		if_expand(lexer, env, &value);
 		if (lexer->c != '\'' && lexer->c != '\"')
 		{
 			if (!is_cmd(lexer->c) || lexer->c == 0)
-				break ;
-			value = ft_strjoin_char(value, lexer->c);
+				return (init_token(value, CMD));
+			if (lexer->c != '\'' && lexer->c != '\"')
+				value = ft_strjoin_char(value, lexer->c);
+			lexer_advance(lexer);
 		}
-		lexer_advance(lexer);
 	}
+	if (lexer->c == '\'' && lexer->c == '\"')
+		lexer_advance(lexer);
 	return (init_token(value, CMD));
 }
 
@@ -68,25 +71,20 @@ t_token	*lexer_collect_squote(t_lexer *lexer, char **env)
 	char	*value;
 
 	value = ft_strdup("");
+	(void)env;
 	while (lexer->c != '\0')
 	{
 		lexer_advance(lexer);
 		if (lexer->c == '\'')
-		{
-			lexer_advance(lexer);
-			if (check_if_quotes(lexer, env, &value) == 0)
-				return (NULL);
-			check_if_cmd(lexer, env, &value);
 			return (init_token(value, CMD));
-		}
-		else
+		if (lexer->c != 0)
 			value = ft_strjoin_char(value, lexer->c);
 	}
 	free(value);
 	return (NULL);
 }
 
-t_token	*lexer_collect_dquote(t_lexer *lexer, char **env)
+t_token	*lexer_collect_dquote(t_lexer *lexer, char **env, int hdc)
 {
 	char	*value;
 
@@ -94,16 +92,11 @@ t_token	*lexer_collect_dquote(t_lexer *lexer, char **env)
 	while (lexer->c != '\0')
 	{
 		lexer_advance(lexer);
-		check_if_expand(lexer, env, &value);
+		if (hdc != 1)
+			if_expand(lexer, env, &value);
 		if (lexer->c == '\"')
-		{
-			lexer_advance(lexer);
-			if (check_if_quotes(lexer, env, &value) == 0)
-				return (NULL);
-			check_if_cmd(lexer, env, &value);
 			return (init_token(value, CMD));
-		}
-		else
+		if (lexer->c != 0)
 			value = ft_strjoin_char(value, lexer->c);
 	}
 	free(value);

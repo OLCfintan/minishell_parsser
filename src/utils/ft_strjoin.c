@@ -6,7 +6,7 @@
 /*   By: oel-mouk <oel-mouk@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:48:44 by oel-mouk          #+#    #+#             */
-/*   Updated: 2024/11/14 19:48:45 by oel-mouk         ###   ########.fr       */
+/*   Updated: 2024/11/21 05:18:02 by oel-mouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strjoin(char *stash, char *buff)
 
 	if (!stash && !buff)
 		return (NULL);
+	if (!buff && stash)
+		return (stash);
 	if (!stash)
 		stash = ft_calloc(1, sizeof(char));
 	temp = malloc(sizeof(char) * (ft_strlen(stash) + ft_strlen(buff) + 1));
