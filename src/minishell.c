@@ -18,10 +18,12 @@ void	print_cmd_dd(t_cmd *cmd, char **env)
 	int		i;
 	int		avi;
 	int		redi;
+    int     pip;
 	t_redir	*redirrection;
 
 	avi = 1;
 	redi = 1;
+    pip = 1;
 	(void)env;
 	hold = cmd;
 	while (hold)
@@ -30,7 +32,7 @@ void	print_cmd_dd(t_cmd *cmd, char **env)
 		avi = 1;
 		redi = 1;
 		redirrection = hold->redirections;
-		printf("|---------------------------------------------------------------------------------------------------------|\n");
+		printf("|---------------------------------------------<PIP : %d----------------------------------------------------|\n", pip++);
 		printf("|														|\n");
 		printf("|		the number of arguments is --->	%d 	 				          	  	  |\n",hold->ac);
 		printf("|														|\n");
